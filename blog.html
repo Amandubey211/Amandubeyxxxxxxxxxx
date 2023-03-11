@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>blog page</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <div class="wraper6">
+    <div class="navbar">
+      <section class="logo">
+        <img src="logos/neteorlogo.jpg" alt="" />
+      </section>
+      <section class="navlinks">
+        <ul id="navlist">
+          <li class="navdata"><a href="index.html">home</a></li>
+          <li class="navdata"><a href="about.html">about</a></li>
+          <li class="navdata"><a href="work.html">my work</a></li>
+          <li class="navdata"><a href="service.html">services</a></li>
+          <li class="navdata"><a href="blog.html">blogs</a></li>
+          <li class="navdata"><a href="contact.html">contact</a></li>
+
+        </ul>
+    </div>
+    <div class="blog-content1">
+
+      <form action="" id="ourform">
+        <h1>a to-do application</h1>
+
+        <input type="text " id="ourfield" name="todo" autocomplete="off">
+        <button id="addbtn">ADD</button>
+      </form>
+      <h3>need to do</h3> <br>
+      <ul id="ourlist">
+
+
+      </ul>
+    </div><br>
+    <hr>
+  <!-- -------------------------------------------------dog app-------- -->
+
+
+
+    <div id="breedbox">
+      <div class="dogappheader">
+        <h1>Infinite dog app</h1>
+        <div id="breed">
+
+        </div>
+      </div>
+      <div id="slideshow">
+      
+    </div>
+
+  </div>
+
+
+  <!-- to do app------------------------------------ -->
+
+  <script>
+    let ourform = document.getElementById("ourform")
+    let ourfield = document.getElementById("ourfield")
+    let ourlist = document.getElementById("ourlist")
+
+    ourform.addEventListener("submit", (e) => {
+      e.preventDefault()
+      createditems(ourfield.value)
+    })
+    function createditems(x) {
+      let ourHtml = ` <li>${x}<button onclick = "deleteitems(this)">delete</button></li><br> `
+      ourlist.insertAdjacentHTML("beforeend", ourHtml)
+      ourfield.value = ""
+      ourfield.focus()
+
+    }
+    ourHtml.deleteitems(this).style.background.white
+    function deleteitems(elementtodelete) {
+      elementtodelete.parentElement.remove()
+
+    }
+  </script>
+
+
+
+  <!-- dog app----------------------------------------------- -->
+
+  <script>
+    async function start() {
+      const response = await fetch("https://dog.ceo/api/breeds/list/all")
+      const data = await response.json()
+      createbreedlist(data.message)
+    }
+    start()
+    function createbreedlist(breedlist) {
+      document.getElementById("breed").innerHTML = `
+      <select onchange="loadbybreed(this.value)" >
+        <option >choose a breed</option>
+        ${Object.keys(breedlist).map(function (breed) {
+
+        return `<option >${breed}</option>`
+
+      }).join("")}
+      </select>
+      `
+
+    }
+
+    async function loadbybreed(breed) {
+      if (breed != "choose a breed") {
+        const response = await fetch(`https://dog.ceo/api/breed/${breed}/  images`)
+        const data = await response.json()
+        createslideshow(data.message)
+      }
+      
+
+      function createslideshow(images){
+        document.getElementById("slideshow").innerHTML= `
+        <div class="slide" style="background-image:url('${images[0]}')"></div>
+        `
+      
+      }
+    
+
+    }
+    
+
+
+  </script>
+</body>
+
+</html>
